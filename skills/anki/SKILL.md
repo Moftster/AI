@@ -35,6 +35,7 @@ Generate a mixed set of approximately 8-15 cards:
 ## Style guidelines
 
 - Cards should be in **user-facing, plain English** - avoid overly technical implementation details unless the topic demands it
+- Focus on small distinct answers where it is objectively correct or incorrect
 - Cloze sentences should read naturally and provide enough context to answer without the blank. The clozed words should only cover the key terms.
 - Basic card answers should be concise (one line max, only the key terms where possible)
 - For biblical/theological topics, use accurate terminology and reference scripture where relevant

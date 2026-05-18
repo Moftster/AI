@@ -46,23 +46,29 @@ repo_root="$(cd -- "$script_dir/.." && pwd)"
 source_dir="$repo_root/skills"
 
 targets=(
-  "$HOME/.claude/skills"
-  "$HOME/.codex/skills"
+  "Claude:$HOME/.claude/skills"
+  "Codex:$HOME/.codex/skills"
 )
 
-run() {
+skills_checked=0
+already_linked_claude=0
+already_linked_codex=0
+links_created=0
+links_replaced=0
+links_skipped=0
+
+run_if_needed() {
   if ((dry_run)); then
-    printf 'DRY RUN:'
-    printf ' %q' "$@"
-    printf '\n'
-  else
-    "$@"
+    return
   fi
+
+  "$@"
 }
 
 link_skill() {
   local skill_dir="$1"
-  local target_dir="$2"
+  local label="$2"
+  local target_dir="$3"
   local name dest current
 
   name="$(basename -- "$skill_dir")"
@@ -71,26 +77,30 @@ link_skill() {
   if [[ -L "$dest" ]]; then
     current="$(readlink -- "$dest")"
     if [[ "$current" == "$skill_dir" ]]; then
-      echo "ok: $dest -> $skill_dir"
+      if [[ "$label" == "Claude" ]]; then
+        ((already_linked_claude += 1))
+      elif [[ "$label" == "Codex" ]]; then
+        ((already_linked_codex += 1))
+      fi
       return
     fi
 
     if ((force)); then
-      echo "replace: $dest -> $skill_dir"
-      run ln -sfn -- "$skill_dir" "$dest"
+      run_if_needed ln -sfn -- "$skill_dir" "$dest"
+      ((links_replaced += 1))
     else
-      echo "skip: $dest is a symlink to $current; use --force to replace it" >&2
+      ((links_skipped += 1))
     fi
     return
   fi
 
   if [[ -e "$dest" ]]; then
-    echo "skip: $dest already exists and is not a symlink" >&2
+    ((links_skipped += 1))
     return
   fi
 
-  echo "link: $dest -> $skill_dir"
-  run ln -s -- "$skill_dir" "$dest"
+  run_if_needed ln -s -- "$skill_dir" "$dest"
+  ((links_created += 1))
 }
 
 if [[ ! -d "$source_dir" ]]; then
@@ -98,8 +108,20 @@ if [[ ! -d "$source_dir" ]]; then
   exit 1
 fi
 
-for target_dir in "${targets[@]}"; do
-  run mkdir -p -- "$target_dir"
+if ((dry_run)); then
+  echo "Dry run: no changes will be made."
+fi
+
+for target in "${targets[@]}"; do
+  target_dir="${target#*:}"
+
+  if [[ ! -d "$target_dir" ]]; then
+    if ((dry_run)); then
+      :
+    else
+      mkdir -p -- "$target_dir"
+    fi
+  fi
 done
 
 found=0
@@ -108,8 +130,12 @@ for skill_dir in "$source_dir"/*; do
   [[ -f "$skill_dir/SKILL.md" ]] || continue
 
   found=1
-  for target_dir in "${targets[@]}"; do
-    link_skill "$skill_dir" "$target_dir"
+  ((skills_checked += 1))
+
+  for target in "${targets[@]}"; do
+    label="${target%%:*}"
+    target_dir="${target#*:}"
+    link_skill "$skill_dir" "$label" "$target_dir"
   done
 done
 
@@ -117,3 +143,14 @@ if ((found == 0)); then
   echo "No skill directories with SKILL.md found in $source_dir" >&2
   exit 1
 fi
+
+if ((dry_run)); then
+  echo
+fi
+echo "Summary:"
+echo "  Skills checked: $skills_checked"
+echo "  Already linked claude: $already_linked_claude"
+echo "  Already linked codex: $already_linked_codex"
+echo "  Links created: $links_created"
+echo "  Links replaced: $links_replaced"
+echo "  Skipped: $links_skipped"

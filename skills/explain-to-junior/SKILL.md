@@ -19,22 +19,23 @@ Explain the target code in practical plain English for a strong junior developer
 
 ## Output Shape
 
-Use this default structure for most answers. Keep the sections visually broken up: use short Markdown headers, a blank line after each header, and no paragraph longer than 2-3 sentences.
+Use this default structure for most answers. Keep the sections visually broken up: use level-2 Markdown headings (`##`), leave a blank line before and after each heading, and keep paragraphs to 1-2 short sentences. Under `## What It Does`, use bullets whenever the target contains multiple methods, properties, branches, or named concepts.
 
 ```md
-**In Short**
+## In Short
 
 <One sentence explaining the purpose or behavior.>
 
-**What It Does**
+## What It Does
 
-<2-4 sentences. Explain inputs, main transformation, outputs, and side effects.>
+- `<symbol_or_method>`: <Explain what this specific part does.>
+- `<another_symbol_or_method>`: <Explain the next important part.>
 
-**Why It Matters**
+## Why It Matters
 
 <1-3 sentences. Explain the role in the surrounding code path or the reason it exists.>
 
-**Watch Out For**
+## Watch Out For
 
 <Optional. Use bullets when there are multiple points. Mention edge cases, surprising behavior, naming traps, async behavior, mutation, nullability, errors, or test gaps.>
 ```
@@ -42,11 +43,11 @@ Use this default structure for most answers. Keep the sections visually broken u
 For a single line or expression, use a tighter version:
 
 ```md
-**Meaning**
+## Meaning
 
 <Plain-English explanation.>
 
-**Mechanics**
+## Mechanics
 
 <Brief mechanics. The important detail is <the non-obvious part>.>
 ```
@@ -61,8 +62,10 @@ For a single line or expression, use a tighter version:
 - Keep examples tiny and relevant; do not invent large examples.
 - Avoid line-by-line commentary unless the target is explicitly a line or very small snippet.
 - Avoid filler such as "this is responsible for" when a direct verb is clearer.
-- Do not merge section labels into paragraph starters like "What it does:"; make them standalone headers.
-- Prefer several short sections over one dense explanation. If a section grows past 3 sentences, split it or use bullets.
+- Do not use bold-only section labels like `**In Short**`; use `## In Short` style headings so the UI renders them larger and clearer.
+- Do not merge section labels into paragraph starters like "What it does:"; make them standalone headings with blank lines around them.
+- Prefer several short sections over one dense explanation. If a section grows past 2 sentences, split it or use bullets.
+- When explaining several functions or methods in one file, give each important method its own bullet under `## What It Does`, such as ``- `execute()`: ...`` and ``- `schema()`: ...``.
 
 ## Code Links
 

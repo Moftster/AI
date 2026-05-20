@@ -48,10 +48,20 @@ It works by <brief mechanics>. The important detail is <the non-obvious part>.
 - Explain control flow and data flow before implementation trivia.
 - Mention types, ownership, mutation, async boundaries, and error handling when they affect understanding.
 - Define jargon briefly the first time it matters.
-- Use code references when available.
+- Use code references when available, and make them clickable links when possible.
 - Keep examples tiny and relevant; do not invent large examples.
 - Avoid line-by-line commentary unless the target is explicitly a line or very small snippet.
 - Avoid filler such as "this is responsible for" when a direct verb is clearer.
+
+## Code Links
+
+When explaining local code, link to the relevant file and line whenever possible:
+
+```md
+[app.py](/absolute/path/to/app.py:42)
+```
+
+Use the smallest useful set of links: usually the target symbol, one important caller, or one relevant test. If an exact line is unknown, link to the file. If the code came from a pasted snippet with no path, say that no local link is available.
 
 ## Length
 

@@ -19,27 +19,36 @@ Explain the target code in practical plain English for a strong junior developer
 
 ## Output Shape
 
-Use this default structure for most answers:
+Use this default structure for most answers. Keep the sections visually broken up: use short Markdown headers, a blank line after each header, and no paragraph longer than 2-3 sentences.
 
 ```md
-In short: <one sentence explaining the purpose or behavior.>
+**In Short**
 
-What it does:
+<One sentence explaining the purpose or behavior.>
+
+**What It Does**
+
 <2-4 sentences. Explain inputs, main transformation, outputs, and side effects.>
 
-Why it matters:
+**Why It Matters**
+
 <1-3 sentences. Explain the role in the surrounding code path or the reason it exists.>
 
-Watch out for:
-<Optional. Mention edge cases, surprising behavior, naming traps, async behavior, mutation, nullability, errors, or test gaps.>
+**Watch Out For**
+
+<Optional. Use bullets when there are multiple points. Mention edge cases, surprising behavior, naming traps, async behavior, mutation, nullability, errors, or test gaps.>
 ```
 
 For a single line or expression, use a tighter version:
 
 ```md
-This line means: <plain-English explanation>.
+**Meaning**
 
-It works by <brief mechanics>. The important detail is <the non-obvious part>.
+<Plain-English explanation.>
+
+**Mechanics**
+
+<Brief mechanics. The important detail is <the non-obvious part>.>
 ```
 
 ## Style Rules
@@ -52,6 +61,8 @@ It works by <brief mechanics>. The important detail is <the non-obvious part>.
 - Keep examples tiny and relevant; do not invent large examples.
 - Avoid line-by-line commentary unless the target is explicitly a line or very small snippet.
 - Avoid filler such as "this is responsible for" when a direct verb is clearer.
+- Do not merge section labels into paragraph starters like "What it does:"; make them standalone headers.
+- Prefer several short sections over one dense explanation. If a section grows past 3 sentences, split it or use bullets.
 
 ## Code Links
 

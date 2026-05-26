@@ -35,9 +35,9 @@ Use this default structure for most answers. Keep the sections visually broken u
 
 <1-3 sentences. Explain the role in the surrounding code path or the reason it exists.>
 
-## Watch Out For
+## Data Flow
 
-<Optional. Use bullets when there are multiple points. Mention edge cases, surprising behavior, naming traps, async behavior, mutation, nullability, errors, or test gaps.>
+<Optional. 2-5 sentences tracing how data enters this code, what changes here, and where it goes next.>
 ```
 
 For a single line or expression, use a tighter version:
@@ -66,6 +66,20 @@ For a single line or expression, use a tighter version:
 - Do not merge section labels into paragraph starters like "What it does:"; make them standalone headings with blank lines around them.
 - Prefer several short sections over one dense explanation. If a section grows past 2 sentences, split it or use bullets.
 - When explaining several functions or methods in one file, give each important method its own bullet under `## What It Does`, such as ``- `execute()`: ...`` and ``- `schema()`: ...``.
+
+## Data Flow Guidance
+
+When the target code participates in a larger path, briefly explain how data reaches it and where it goes next.
+
+Keep this scoped to the target. Include only relevant details from:
+
+- the immediate caller or entry point
+- the input data or state being read
+- any mutation, transformation, validation, or side effect
+- the next method, API, UI, database write, event, or return value
+- any async boundary or error path that changes the flow
+
+Do not turn this into a full system walkthrough. If the user asks for an end-to-end feature or architecture explanation, use the broader `explain` skill instead.
 
 ## Code Links
 
